@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kostenloser Trainingsplan — Beyond 2 Dimensions</title>
+<meta name="description" content="Der Allrounder-Trainingsplan: Oberkörper/Unterkörper 2er-Split mit interaktiver Tracking-Tabelle zum Download. Kostenlos von Beyond 2 Dimensions.">
+<style>
+  :root{
+    --primary:#1F2E3A; --secondary:#415C71; --secondary-hover:#2D4253;
+    --bg:#f5ede0; --surface:#ebe0cc; --surface2:#D9C9A8; --muted:#4A5868; --text:#1F2E3A;
+    --cream:#f5ede0;
+    --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;overflow-x:clip;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  section{padding:clamp(3rem,8vw,6rem) 0;}
+  .surface{background:var(--surface);}
+  h1,h2,h3,h4{color:var(--primary);margin:0;line-height:1.05;letter-spacing:-.02em;}
+  p{margin:0;}
+  a{color:inherit;}
+  .acc{color:var(--secondary);}
+
+  /* Reveal — ohne JS immer sichtbar */
+  .reveal{opacity:1;transform:none;}
+  html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+  html.js .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){html.js .reveal{opacity:1!important;transform:none!important;transition:none!important;}}
+
+  /* Hero */
+  .hero{padding-top:clamp(3.5rem,9vw,6rem);position:relative;}
+  .eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--secondary);}
+  .hero h1{font-size:clamp(2.4rem,8vw,4.6rem);font-weight:800;margin:1.1rem 0 0;}
+  .hero .intro{margin-top:1.4rem;max-width:46ch;font-size:clamp(1rem,2.4vw,1.18rem);color:var(--muted);}
+  .rule{height:1px;background:var(--surface2);max-width:120px;margin-top:2rem;}
+
+  /* Karten */
+  .card{background:var(--surface);border:1px solid rgba(31,46,58,.07);border-radius:1.5rem;padding:clamp(1.5rem,4vw,2.5rem);}
+  .dark{background:var(--primary);color:var(--cream);border-radius:1.5rem;}
+  .dark h2,.dark h3,.dark h4{color:var(--cream);}
+
+  /* Section-Kopf */
+  .shead{margin-bottom:clamp(2rem,5vw,3rem);}
+  .shead .row{display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem;}
+  .step{width:3.1rem;height:3.1rem;border-radius:999px;border:1.5px solid rgba(65,92,113,.35);color:var(--secondary);font-family:var(--mono);font-weight:800;font-size:1.05rem;display:flex;align-items:center;justify-content:center;flex:0 0 auto;}
+  .shead h2{font-size:clamp(1.9rem,5vw,3.2rem);font-weight:800;max-width:20ch;}
+
+  .grid2{display:grid;gap:1.3rem;}
+  @media(min-width:860px){.grid2{grid-template-columns:1fr 1fr;align-items:stretch;}}
+  .stretch{height:100%;}
+
+  /* Intro */
+  .introcard p.big{font-size:clamp(1.3rem,3.6vw,2.1rem);font-weight:800;color:var(--primary);line-height:1.18;}
+  .introcard p.sub{margin-top:1.2rem;color:var(--muted);max-width:60ch;font-size:1.05rem;}
+  .badge-time{display:inline-flex;align-items:center;gap:.5rem;background:rgba(65,92,113,.1);color:var(--secondary);font-size:.78rem;font-weight:700;padding:.4rem .85rem;border-radius:999px;margin-bottom:1.3rem;}
+
+  /* Rhythmus */
+  .rhythm{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.3rem;}
+  .rcell{flex:1 1 80px;border-radius:.8rem;padding:.85rem .5rem;text-align:center;}
+  .rcell.on{background:rgba(65,92,113,.16);border:1px solid rgba(65,92,113,.35);}
+  .rcell.off{background:rgba(245,237,224,.07);border:1px dashed rgba(245,237,224,.2);}
+  .rstate{display:block;font-size:.6rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.3rem;}
+  .rcell.on .rstate{color:var(--secondary);}
+  .rcell.off .rstate{color:rgba(245,237,224,.45);}
+  .rlabel{display:block;font-size:.76rem;font-weight:700;line-height:1.15;}
+  .rcell.on .rlabel{color:var(--cream);}
+  .rcell.off .rlabel{color:rgba(245,237,224,.55);}
+  .rtitle{display:flex;align-items:center;gap:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:.85rem;margin-bottom:1.3rem;}
+  .rtitle svg{width:22px;height:22px;color:var(--secondary);}
+
+  /* Tag-Karten */
+  .days{display:grid;gap:1.3rem;}
+  @media(min-width:760px){.days{grid-template-columns:1fr 1fr;}}
+  .daycard{background:var(--surface);border:1px solid rgba(31,46,58,.07);border-radius:1.5rem;overflow:hidden;}
+  .dayhead{display:flex;align-items:center;gap:1rem;padding:1.1rem 1.4rem;background:var(--primary);color:var(--cream);}
+  .daybadge{flex:0 0 auto;width:3rem;height:3rem;border-radius:.8rem;background:rgba(65,92,113,.18);color:var(--secondary);font-family:var(--mono);font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+  .daytitle{display:block;font-weight:800;font-size:1.15rem;}
+  .daymuscles{display:block;font-size:.74rem;color:rgba(245,237,224,.6);margin-top:.15rem;}
+  .exlist{list-style:none;margin:0;padding:0;}
+  .exrow{display:flex;align-items:center;gap:1rem;padding:.8rem 1.4rem;border-top:1px solid rgba(31,46,58,.08);}
+  .exrow:first-child{border-top:none;}
+  .sets{flex:0 0 auto;min-width:2.6rem;text-align:center;font-family:var(--mono);font-weight:800;color:var(--secondary);background:rgba(65,92,113,.1);border:1px solid rgba(65,92,113,.2);border-radius:.6rem;padding:.25rem 0;font-size:.85rem;}
+  .exname{font-size:.95rem;font-weight:500;}
+  .note{margin-top:1.6rem;font-style:italic;color:var(--muted);font-size:.9rem;max-width:60ch;}
+
+  /* Know-how */
+  .pillars{display:grid;gap:1.2rem;}
+  @media(min-width:760px){.pillars{grid-template-columns:repeat(3,1fr);}}
+  .pillar{background:var(--surface);border:1px solid rgba(31,46,58,.07);border-radius:1.5rem;padding:1.8rem;}
+  .pillarnum{display:inline-flex;align-items:center;justify-content:center;width:2.6rem;height:2.6rem;border-radius:.8rem;background:rgba(65,92,113,.12);color:var(--secondary);font-family:var(--mono);font-weight:800;margin-bottom:1rem;}
+  .pillar h4{font-size:1.1rem;margin-bottom:.4rem;}
+  .pillar p{color:var(--muted);font-size:.92rem;}
+  .leadp{color:var(--muted);max-width:60ch;font-size:1.08rem;margin-bottom:2.2rem;}
+
+  /* Tracking */
+  .track{display:grid;gap:1.3rem;}
+  @media(min-width:960px){.track{grid-template-columns:1.05fr .95fr;align-items:stretch;}}
+  .trackbox{padding:clamp(1.6rem,4vw,2.6rem);display:flex;flex-direction:column;}
+  .pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(65,92,113,.18);color:var(--secondary);font-size:.76rem;font-weight:700;padding:.4rem .85rem;border-radius:999px;margin-bottom:1.2rem;align-self:flex-start;}
+  .pill svg{width:14px;height:14px;}
+  .trackbox .lead{color:rgba(245,237,224,.9);font-size:1.08rem;}
+  .feats{list-style:none;margin:1.4rem 0 0;padding:0;display:grid;gap:.65rem;}
+  .feats li{display:flex;align-items:flex-start;gap:.6rem;font-size:.92rem;color:rgba(245,237,224,.85);}
+  .feats .fc{flex:0 0 auto;width:1rem;height:1rem;color:var(--secondary);margin-top:.18rem;}
+  .dlrow{margin-top:1.8rem;display:flex;flex-wrap:wrap;gap:.8rem;}
+  .dlbtn{display:inline-flex;align-items:center;gap:.6rem;background:var(--secondary);color:var(--cream);font-weight:700;text-decoration:none;padding:.95rem 1.6rem;border-radius:999px;transition:background .25s,border-color .25s;}
+  .dlbtn:hover{background:var(--secondary-hover);}
+  .dlbtn svg{width:18px;height:18px;}
+  .dlbtn.ghost{background:transparent;color:var(--cream);border:1.5px solid rgba(245,237,224,.35);}
+  .dlbtn.ghost:hover{background:rgba(245,237,224,.1);border-color:rgba(245,237,224,.6);}
+  .preview{background:var(--surface);border:1px solid rgba(31,46,58,.07);border-radius:1.5rem;padding:1.3rem;}
+  .ptitle{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1rem;}
+  .ptitle svg{width:16px;height:16px;color:var(--secondary);}
+  .pvwrap{overflow-x:auto;border-radius:.7rem;border:1px solid rgba(31,46,58,.10);}
+  .pvt{width:100%;border-collapse:collapse;font-size:.7rem;}
+  .pvt thead tr{background:var(--primary);color:var(--cream);}
+  .pvt th,.pvt td{padding:.42rem .5rem;text-align:center;white-space:nowrap;border:1px solid rgba(31,46,58,.10);}
+  .pvt th.wkhead{border-left:2px solid var(--secondary);border-right:2px solid var(--secondary);}
+  .pvt td.pn{text-align:left;font-weight:700;color:var(--primary);vertical-align:middle;background:var(--surface);}
+  .pvt td{color:var(--text);vertical-align:middle;}
+  .pvt td.pnote{text-align:left;color:var(--muted);font-style:italic;border-right:2px solid var(--secondary);max-width:7rem;white-space:normal;}
+  .pfoot{margin-top:1rem;font-size:.78rem;color:var(--muted);}
+
+  /* Summary */
+  .sumhead{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;}
+  .sumhead h2{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:800;}
+  .sumgrid{display:grid;gap:.7rem;}
+  @media(min-width:640px){.sumgrid{grid-template-columns:1fr 1fr;}}
+  .sumrow{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid rgba(31,46,58,.07);border-radius:1.2rem;padding:1rem 1.3rem;font-weight:600;color:var(--primary);}
+  .sumcheck{flex:0 0 auto;width:2rem;height:2rem;border-radius:999px;background:var(--secondary);color:var(--cream);display:flex;align-items:center;justify-content:center;}
+  .sumcheck svg,.qcheck svg,.fc{width:1rem;height:1rem;}
+  .sumcheck svg{width:.95rem;height:.95rem;}
+
+  /* CTA */
+  .cta{position:relative;overflow:hidden;border-radius:2rem;text-align:center;padding:clamp(2.5rem,7vw,4.5rem) clamp(1.4rem,5vw,3.5rem);background:linear-gradient(135deg,var(--primary) 0%,#2D4253 100%);}
+  .cta .glow{position:absolute;left:50%;top:-5rem;transform:translateX(-50%);width:60%;height:16rem;background:radial-gradient(ellipse,rgba(65,92,113,.35) 0%,transparent 70%);pointer-events:none;}
+  .cta h2{position:relative;color:var(--cream);font-size:clamp(1.9rem,5.5vw,3.3rem);font-weight:800;margin:1.1rem auto 0;max-width:20ch;}
+  .cta .sub{position:relative;color:rgba(245,237,224,.78);max-width:40ch;margin:1.3rem auto 0;font-size:1.05rem;}
+  .qs{position:relative;list-style:none;margin:2.2rem auto 0;padding:0;max-width:640px;display:grid;gap:.6rem;text-align:left;}
+  @media(min-width:640px){.qs{grid-template-columns:1fr 1fr;}}
+  .qs li{display:flex;align-items:flex-start;gap:.6rem;background:rgba(245,237,224,.06);border:1px solid rgba(245,237,224,.1);border-radius:.8rem;padding:.7rem .9rem;font-size:.88rem;color:rgba(245,237,224,.88);}
+  .qcheck{flex:0 0 auto;color:var(--secondary);margin-top:.15rem;}
+  .ctabtns{position:relative;margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;}
+  .btnprimary{display:inline-flex;align-items:center;gap:.5rem;background:var(--secondary);color:var(--cream);text-decoration:none;font-weight:700;padding:.95rem 1.8rem;border-radius:999px;transition:background .25s;}
+  .btnprimary:hover{background:var(--secondary-hover);}
+  .btnprimary svg{width:18px;height:18px;}
+  .iglink{display:inline-flex;align-items:center;gap:.5rem;color:rgba(245,237,224,.85);text-decoration:none;font-weight:600;font-size:.9rem;}
+  .iglink svg{width:18px;height:18px;color:var(--secondary);}
+
+  footer{padding:2.5rem 0 3.5rem;text-align:center;color:var(--muted);font-size:.82rem;}
+  footer b{color:var(--primary);}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <span class="eyebrow">Gratis Trainingsplan</span>
+  <h1>Der Allrounder-<span class="acc">Trainingsplan.</span></h1>
+  <p class="intro">Es gibt nicht den einen goldenen Plan. Hier bekommst du einen erprobten Oberkörper/Unterkörper-Split, der für die meisten funktioniert — anschaulich aufbereitet und mit einer Tracking-Tabelle, mit der du dich Woche für Woche steigerst.</p>
+  <div class="rule"></div>
+</header>
+
+<section><div class="wrap">
+  <div class="reveal card introcard">
+    <span class="badge-time">⏱ 4 Minuten Lesezeit</span>
+    <p class="big">Es gibt nicht den einen „goldenen Plan“, der für jeden funktioniert.</p>
+    <p class="sub">Gerade in den ersten Trainingsjahren solltest du nicht zu viele Gedanken an den „perfekten Plan“ verschwenden. Der Funken Optimierung kann etwas bewirken — viel wichtiger ist aber, dass du die <b>80–90 % über einen verdammt langen Zeitraum</b> durchziehst. Genau dafür habe ich dir <b>einen erprobten Allrounder</b> zusammengestellt.</p>
+  </div>
+</div></section>
+
+<section class="surface"><div class="wrap">
+  <div class="shead">
+    <div class="row"><span class="step">01</span><span class="eyebrow">Der Aufbau</span></div>
+    <h2>Oberkörper / Unterkörper <span class="acc">(2er-Split).</span></h2>
+  </div>
+  <div class="grid2">
+    <div class="reveal card stretch">
+      <p style="font-size:1.08rem;">Du trainierst abwechselnd <b>Oberkörper</b> und <b>Unterkörper</b> — über vier eigenständige Einheiten verteilt. So triffst du jede Muskelgruppe häufig genug, ohne dich zu überfrachten.</p>
+    </div>
+    <div class="reveal dark stretch" style="padding:clamp(1.6rem,4vw,2.4rem);">
+      <div class="rtitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><span>Rhythmus: Training, Training, Pause</span></div>
+      <div class="rhythm">
+        <div class="rcell on">
+          <span class="rstate">On</span>
+          <span class="rlabel">Oberkörper 1</span>
+        </div>
+        <div class="rcell on">
+          <span class="rstate">On</span>
+          <span class="rlabel">Unterkörper 1</span>
+        </div>
+        <div class="rcell off">
+          <span class="rstate">Off</span>
+          <span class="rlabel">Pause</span>
+        </div>
+        <div class="rcell on">
+          <span class="rstate">On</span>
+          <span class="rlabel">Oberkörper 2</span>
+        </div>
+        <div class="rcell on">
+          <span class="rstate">On</span>
+          <span class="rlabel">Unterkörper 2</span>
+        </div>
+        <div class="rcell off">
+          <span class="rstate">Off</span>
+          <span class="rlabel">Pause</span>
+        </div></div>
+      <p style="margin-top:1.2rem;font-size:.9rem;color:rgba(245,237,224,.65);">Zwei Tage trainieren, ein Tag Pause — danach rollt der Zyklus weiter zur nächsten Einheit. Flexibel an deine Woche anpassbar.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="shead">
+    <div class="row"><span class="step">02</span><span class="eyebrow">Die Einheiten</span></div>
+    <h2>Dein Plan im <span class="acc">Detail.</span></h2>
+  </div>
+  <div class="days">
+        <div class="reveal daycard">
+          <div class="dayhead">
+            <span class="daybadge">OK1</span>
+            <span class="daymeta">
+              <span class="daytitle">💪 Oberkörper 1</span>
+            </span>
+          </div>
+          <ul class="exlist">
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Crunch (liegend, Kabel)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Lat Pulldown</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">3×</span>
+            <span class="exname">Butterfly</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Preacher Curl (einarmig)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Breites Rudern (T-Bar etc.)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Triceps Pushdowns über Kopf (einarmig)</span>
+          </li></ul>
+        </div>
+        <div class="reveal daycard">
+          <div class="dayhead">
+            <span class="daybadge">UK1</span>
+            <span class="daymeta">
+              <span class="daytitle">🦵 Unterkörper 1</span>
+            </span>
+          </div>
+          <ul class="exlist">
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Seitheben Kabel (einarmig)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Wadenheben (gestreckte Beine)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Split Squat (ohne Erhöhung der Füße)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Leg Curl (sitzend)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Legpress 45 Grad</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">1×</span>
+            <span class="exname">Adduktor</span>
+          </li></ul>
+        </div>
+        <div class="reveal daycard">
+          <div class="dayhead">
+            <span class="daybadge">OK2</span>
+            <span class="daymeta">
+              <span class="daytitle">💪 Oberkörper 2</span>
+            </span>
+          </div>
+          <ul class="exlist">
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Beinheben (hängend, am Dip Tower)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Dip</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Wide Grip Pulldown</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Incline Smith Press</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Hammercurl (einarmig)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Kelso Shrug</span>
+          </li></ul>
+        </div>
+        <div class="reveal daycard">
+          <div class="dayhead">
+            <span class="daybadge">UK2</span>
+            <span class="daymeta">
+              <span class="daytitle">🦵 Unterkörper 2</span>
+            </span>
+          </div>
+          <ul class="exlist">
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Seitheben Maschine (mit Armpolster)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Wadenheben (gestreckte Beine)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Leg Curl (liegend)</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Leg Extension</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">2×</span>
+            <span class="exname">Glute Bridge</span>
+          </li>
+          <li class="exrow">
+            <span class="sets">1×</span>
+            <span class="exname">Legpress 45 Grad (einbeinig)</span>
+          </li></ul>
+        </div></div>
+  <p class="note">Die Zahl vor jeder Übung ist die Anzahl der Arbeitssätze. Wähle ein Gewicht, das dich nah ans Muskelversagen bringt — sauber ausgeführt.</p>
+</div></section>
+
+<section class="surface"><div class="wrap">
+  <div class="shead">
+    <div class="row"><span class="step">03</span><span class="eyebrow">Der Unterschied</span></div>
+    <h2>Ein guter Plan allein reicht <span class="acc">nicht.</span></h2>
+  </div>
+  <p class="leadp">Ohne das richtige Know-how bringt dir selbst der beste Plan recht wenig. Diese drei Hebel entscheiden, wie viel du wirklich aus jeder Einheit holst:</p>
+  <div class="pillars">
+        <div class="reveal pillar">
+          <span class="pillarnum">1</span>
+          <h4>Übungsausführung</h4>
+          <p>Saubere Technik über die volle Bewegungsamplitude — kontrolliert, nicht geschwungen.</p>
+        </div>
+        <div class="reveal pillar">
+          <span class="pillarnum">2</span>
+          <h4>Ansteuerung</h4>
+          <p>Den Zielmuskel bewusst spüren und arbeiten lassen, statt das Gewicht nur zu bewegen.</p>
+        </div>
+        <div class="reveal pillar">
+          <span class="pillarnum">3</span>
+          <h4>Echte Intensität</h4>
+          <p>Nah ans Muskelversagen gehen — genau dort entsteht der Reiz fürs Wachstum.</p>
+        </div></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="shead">
+    <div class="row"><span class="step">04</span><span class="eyebrow">Dranbleiben &amp; steigern</span></div>
+    <h2>Tracke deinen Fortschritt <span class="acc">über Wochen.</span></h2>
+  </div>
+  <div class="track">
+    <div class="reveal dark trackbox">
+      <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg> Interaktive Tabelle · 8 Wochen</span>
+      <p class="lead">Fortschritt entsteht durch <b style="color:var(--cream)">progressive Steigerung</b>. Trag <b style="color:var(--cream)">jeden Satz einzeln</b> ein — Gewicht und Wiederholungen — und halt in der Notiz-Spalte fest, was funktioniert hat. So siehst du Woche für Woche, wo du stehst.</p>
+      <ul class="feats">
+        <li><span class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Alle vier Einheiten mit Übungen &amp; Sätzen vorausgefüllt</li>
+        <li><span class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Jeden Satz einzeln tracken: Gewicht + Wiederholungen</li>
+        <li><span class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>In jeder Woche eine eigene Notiz-Spalte</li>
+        <li><span class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>8 Wochen — klar mit dicken Linien getrennt</li>
+        <li><span class="fc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Öffnet direkt in Google Sheets, Excel &amp; Numbers</li>
+      </ul>
+      <div class="dlrow">
+        <a class="dlbtn" href="https://docs.google.com/spreadsheets/d/15ETKMnVSQzCZKp5-9Mmi6LbYGUL8Pq7d/copy" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg> In Google Sheets öffnen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <a class="dlbtn ghost" id="dlbtn" href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,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" download="b2d-trainingsplan-tracker.xlsx"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Als Datei herunterladen</a>
+      </div>
+    </div>
+    <div class="reveal preview">
+      <div class="ptitle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg> So sieht's aus</div>
+      <div class="pvwrap">
+        <table class="pvt">
+          <thead>
+            <tr><th rowspan="2">Übung</th><th rowspan="2">Satz</th><th colspan="3" class="wkhead">Woche 1</th></tr>
+            <tr><th>kg</th><th>Wdh</th><th>Notiz</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="pn" rowspan="2">Lat Pulldown</td><td>1</td><td>55</td><td>10</td><td class="pnote" rowspan="2">Griff eng, sauber</td></tr>
+            <tr><td>2</td><td>55</td><td>9</td></tr>
+            <tr><td class="pn" rowspan="3">Butterfly</td><td>1</td><td>40</td><td>12</td><td class="pnote" rowspan="3">Volle ROM, top</td></tr>
+            <tr><td>2</td><td>40</td><td>11</td></tr>
+            <tr><td>3</td><td>38</td><td>10</td></tr>
+          </tbody>
+        </table></div>
+      <p class="pfoot">↗ So sieht eine Woche aus — daneben geht's mit Woche 2, 3 … weiter, jeweils klar getrennt.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="surface"><div class="wrap">
+  <div class="sumhead"><span class="step" style="border-color:rgba(65,92,113,.35)">✓</span><h2>Alles auf einen Blick</h2></div>
+  <div class="sumgrid"><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Oberkörper/Unterkörper im 2er-Split</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Rhythmus: Training, Training, Pause</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Vier eigenständige Einheiten</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Saubere Ausführung &amp; Ansteuerung</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Echte Intensität bis nah ans Versagen</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Fortschritt über Wochen tracken</span></div><div class="reveal sumrow"><span class="sumcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><span>Konstanz über einen langen Zeitraum</span></div></div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="reveal cta">
+    <div class="glow"></div>
+    <span class="eyebrow" style="position:relative;">Mehr als nur ein Plan</span>
+    <h2>Du willst nicht nur einen Plan — du willst alles <span class="acc">rausholen.</span></h2>
+    <p class="sub">Dann lass uns sprechen. Im kostenlosen Beratungsgespräch klären wir deine Fragen und ich gehe im Detail auf dich ein — dein Ziel, deine aktuellen Probleme und mehr.</p>
+    <ul class="qs"><li><span class="qcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Wo willst du hin? (Zielsetzung)</li><li><span class="qcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Wo stehst du aktuell?</li><li><span class="qcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Was hast du bereits versucht?</li><li><span class="qcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Woran ist es bisher gescheitert?</li><li><span class="qcheck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>Mein Ansatz, um dich zum Ziel zu führen</li></ul>
+    <div class="ctabtns">
+      <a class="btnprimary" href="https://docs.google.com/forms/d/e/1FAIpQLSdzZYGeqBLYWx7lWOMBNCbaStLc9TH3nle5R94A2CuV4QaWgw/viewform?usp=dialog" target="_blank" rel="noopener noreferrer">Kostenloses Beratungsgespräch sichern <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <a class="iglink" href="https://www.instagram.com/oskarottecoaching/" target="_blank" rel="noopener noreferrer">✦ Oder schreib mir auf Instagram</a>
+    </div>
+  </div>
+</div></section>
+
+<footer><b>Beyond 2 Dimensions</b> · Kostenloser Trainingsplan</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in');});return;}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+    },{rootMargin:'-40px'});
+    els.forEach(function(e){io.observe(e);});
+  })();
+
+  /* Zuverlassiger Download der Tracking-Tabelle:
+     data-URI in echten Datei-Download (Blob) umwandeln. Der data-URI im
+     href bleibt als Fallback erhalten, falls JavaScript blockiert ist. */
+  (function(){
+    var a=document.getElementById('dlbtn');
+    if(!a)return;
+    a.addEventListener('click',function(ev){
+      try{
+        var href=a.getAttribute('href');
+        if(href.indexOf('data:')!==0)return;
+        var comma=href.indexOf(',');
+        var meta=href.substring(5,comma);
+        var type=meta.split(';')[0];
+        var b64=href.substring(comma+1);
+        var bin=atob(b64);
+        var bytes=new Uint8Array(bin.length);
+        for(var i=0;i<bin.length;i++){bytes[i]=bin.charCodeAt(i);}
+        var blob=new Blob([bytes],{type:type});
+        var name=a.getAttribute('download')||'trainingsplan.xlsx';
+        if(window.navigator&&window.navigator.msSaveOrOpenBlob){
+          ev.preventDefault();
+          window.navigator.msSaveOrOpenBlob(blob,name);
+          return;
+        }
+        var url=URL.createObjectURL(blob);
+        ev.preventDefault();
+        var t=document.createElement('a');
+        t.href=url;t.download=name;t.rel='noopener';
+        document.body.appendChild(t);
+        t.click();
+        setTimeout(function(){document.body.removeChild(t);URL.revokeObjectURL(url);},2000);
+      }catch(e){/* Fallback: normaler href-Download */}
+    });
+  })();
+</script>
+</body>
+</html>
