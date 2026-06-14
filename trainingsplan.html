@@ -152,9 +152,23 @@
 
   footer{padding:2.5rem 0 3.5rem;text-align:center;color:var(--muted);font-size:.82rem;}
   footer b{color:var(--primary);}
+
+  /* PDF / Druck */
+  .pdfbtn{position:fixed;right:16px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:.5rem;background:var(--secondary);color:var(--cream);border:none;border-radius:999px;padding:.75rem 1.15rem;font-weight:700;font-size:.85rem;font-family:inherit;cursor:pointer;box-shadow:0 8px 24px rgba(31,46,58,.3);}
+  .pdfbtn svg{width:16px;height:16px;}
+  .pdfbtn:hover{background:var(--secondary-hover);}
+  @media(max-width:560px){.pdfbtn span{display:none;}.pdfbtn{padding:.85rem;}}
+  @media print{
+    .pdfbtn{display:none!important;}
+    html.js .reveal{opacity:1!important;transform:none!important;}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+    .card,.pillar,.cta,.sumrow{break-inside:avoid;}
+    section{padding:1.4rem 0!important;}
+  }
 </style>
 </head>
 <body>
+<button type="button" class="pdfbtn" onclick="window.print()" aria-label="Als PDF speichern"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Als PDF speichern</span></button>
 
 <header class="hero wrap">
   <span class="eyebrow">Gratis Trainingsplan</span>
